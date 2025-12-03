@@ -1,0 +1,68 @@
+{% extends "barber/base.html" %}
+
+{% block title %}Barber Studio — Сучасна перукарня{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container hero__inner">
+        <div class="hero__content">
+            <h1>Сучасна перукарня для тих, хто цінує стиль</h1>
+            <p>
+                Чоловічі стрижки, укладки, догляд за бородою та комплексні образи — у затишній атмосфері
+                нашого барбершопу.
+            </p>
+            <div class="hero__actions">
+                <a href="{% url 'booking' %}" class="btn btn--primary">Записатися онлайн</a>
+                <a href="{% url 'services' %}" class="btn btn--ghost">Переглянути послуги</a>
+            </div>
+        </div>
+        <div class="hero__card">
+            <div class="hero__badge">Знижка 15% для нових клієнтів</div>
+            <h2>Час оновити образ</h2>
+            <p>Класичні та сучасні стрижки, індивідуальний підхід до кожного клієнта.</p>
+            <ul class="hero__list">
+                <li>• Досвідчені майстри</li>
+                <li>• Преміум-косметика</li>
+                <li>• Онлайн-бронювання</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section__title">Популярні послуги</h2>
+        <div class="cards">
+            {% for service in services %}
+                <article class="card">
+                    <h3>{{ service.name }}</h3>
+                    <p class="card__price">{{ service.price }} грн</p>
+                    <p class="card__text">{{ service.description|truncatechars:120 }}</p>
+                </article>
+            {% empty %}
+                <p>Послуги ще не додані. Додайте їх через адмін-панель.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section section--alt">
+    <div class="container">
+        <h2 class="section__title">Наші майстри</h2>
+        <div class="cards cards--3">
+            {% for stylist in stylists %}
+                <article class="card">
+                    <h3>{{ stylist.name }}</h3>
+                    <p class="card__subtitle">{{ stylist.position }}</p>
+                    <p class="card__text">
+                        Досвід: {{ stylist.experience_years }} років<br>
+                        {{ stylist.bio|truncatechars:120 }}
+                    </p>
+                </article>
+            {% empty %}
+                <p>Майстри не додані. Створіть запис у моделі Stylist.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

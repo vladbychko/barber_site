@@ -1,0 +1,27 @@
+{% extends "barber/base.html" %}
+
+{% block title %}Послуги — Barber Studio{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 class="section__title">Послуги перукарні</h1>
+        <p class="section__subtitle">
+            Виберіть послугу, що підходить саме вам. Ціни можуть змінюватися в залежності від складності роботи.
+        </p>
+        <div class="cards">
+            {% for service in services %}
+                <article class="card card--service">
+                    <div class="card__header">
+                        <h2>{{ service.name }}</h2>
+                        <span class="badge">{{ service.price }} грн</span>
+                    </div>
+                    <p class="card__text">{{ service.description }}</p>
+                </article>
+            {% empty %}
+                <p>Поки немає послуг. Додайте їх через адмін-панель.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

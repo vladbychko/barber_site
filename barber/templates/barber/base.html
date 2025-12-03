@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Barber Studio{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Підключення нашого CSS -->
+    <link rel="stylesheet" href="{% static 'barber/css/style.css' %}">
+</head>
+<body>
+<header class="header">
+    <div class="container header__inner">
+        <div class="logo">BARBER<span>STUDIO</span></div>
+        <nav class="nav">
+            <a href="{% url 'home' %}" class="nav__link">Головна</a>
+            <a href="{% url 'services' %}" class="nav__link">Послуги</a>
+            <a href="{% url 'booking' %}" class="nav__link nav__link--primary">Запис онлайн</a>
+        </nav>
+        <button class="burger" id="burger">&#9776;</button>
+    </div>
+</header>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+    <div class="container footer__inner">
+        <div>© {% now "Y" %} Barber Studio. Усі права захищено.</div>
+        <div>м. Тернопіль · вул. Прикладна, 10 · +38 (067) 000-00-00</div>
+    </div>
+</footer>
+
+<script>
+    const burger = document.getElementById('burger');
+    const nav = document.querySelector('.nav');
+    burger.addEventListener('click', () => {
+        nav.classList.toggle('nav--open');
+    });
+</script>
+</body>
+</html>
