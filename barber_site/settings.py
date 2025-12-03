@@ -9,7 +9,8 @@ SECRET_KEY = 'django-insecure-elahog-5#+6hz8dtyfq@%(zkol83jjgr-0iti9oqw+27p)^87a
 # У продакшні став DEBUG = False
 DEBUG = True
 
-ALLOWED_HOSTS: list[str] = []
+ALLOWED_HOSTS = ['*']
+
 
 
 # ==========================

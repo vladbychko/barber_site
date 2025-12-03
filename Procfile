@@ -1,1 +1,1 @@
-web: gunicorn barber_site.wsgi
+web: gunicorn barber_site.wsgi:application
