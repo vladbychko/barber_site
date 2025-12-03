@@ -116,13 +116,20 @@ USE_TZ = True
 # ==========================
 #   STATIC FILES (CSS/JS/IMG)
 # ==========================
+import os
+from pathlib import Path
 
-STATIC_URL = 'static/'
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Тут ми кажемо Django, де шукати наші кастомні статики
+STATIC_URL = '/static/'
+
 STATICFILES_DIRS = [
-    BASE_DIR / "barber" / "static",
+    BASE_DIR / 'barber' / 'static',
 ]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
 
 
 # ==========================
