@@ -1,20 +1,25 @@
 from pathlib import Path
+import os
 
-# Базова директорія проекту
+# ==========================
+# BASE
+# ==========================
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# !!! Можеш залишити свій ключ або цей тимчасовий (для навчання ок)
 SECRET_KEY = 'django-insecure-elahog-5#+6hz8dtyfq@%(zkol83jjgr-0iti9oqw+27p)^87a'
 
-# У продакшні став DEBUG = False
-DEBUG = True
+DEBUG = False  # Render працює з DEBUG=False
 
-ALLOWED_HOSTS = ['*']
-
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '.onrender.com',     # дозволяє будь-який Render-домен
+]
 
 
 # ==========================
-#   APPLICATIONS
+# APPLICATIONS
 # ==========================
 
 INSTALLED_APPS = [
@@ -25,16 +30,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'barber',  # наш додаток перукарні
+    'barber',
 ]
 
 
 # ==========================
-#   MIDDLEWARE
+# MIDDLEWARE
 # ==========================
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # ← дуже важливо!
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -45,7 +51,7 @@ MIDDLEWARE = [
 
 
 # ==========================
-#   URL / WSGI
+# URL / WSGI
 # ==========================
 
 ROOT_URLCONF = 'barber_site.urls'
@@ -53,8 +59,7 @@ ROOT_URLCONF = 'barber_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # Якщо захочеш окрему папку templates на рівні проекту – можна додавати сюди
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [BASE_DIR / 'templates'],  # глобальна папка (опціонально)
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,7 +75,7 @@ WSGI_APPLICATION = 'barber_site.wsgi.application'
 
 
 # ==========================
-#   DATABASE
+# DATABASE
 # ==========================
 
 DATABASES = {
@@ -82,7 +87,7 @@ DATABASES = {
 
 
 # ==========================
-#   PASSWORD VALIDATION
+# PASSWORD VALIDATION
 # ==========================
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -102,10 +107,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # ==========================
-#   INTERNATIONALIZATION
+# INTERNATIONALIZATION
 # ==========================
 
-LANGUAGE_CODE = 'uk'   # можна залишити 'en-us', якщо хочеш англійську
+LANGUAGE_CODE = 'uk'
 
 TIME_ZONE = 'Europe/Kiev'
 
@@ -114,37 +119,23 @@ USE_TZ = True
 
 
 # ==========================
-#   STATIC FILES (CSS/JS/IMG)
+# STATIC FILES (CSS/JS)
 # ==========================
-import os
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent.parent
 
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'barber' / 'static',
+    BASE_DIR / 'barber' / 'static',  # де лежать твої style.css, js, img
 ]
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # куди Render їх збере
 
-MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
+# Whitenoise: дає можливість віддавати static в продакшені
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # ==========================
-#   DEFAULT AUTO FIELD
+# DEFAULT AUTO FIELD
 # ==========================
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-import os
-
-STATIC_URL = '/static/'
-
-if not DEBUG:
-    STATIC_ROOT = BASE_DIR / 'staticfiles'
-    STATICFILES_DIRS = [
-        BASE_DIR / 'barber' / 'static',
-    ]
-    MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
